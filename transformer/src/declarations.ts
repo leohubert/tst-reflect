@@ -2,8 +2,8 @@ import * as ts          from "typescript";
 import {
 	TypeKind,
 	AccessModifier,
-	Accessor
-}                       from "tst-reflect";
+	Accessor,
+} from "tst-reflect";
 import type { Context } from "./contexts/Context";
 
 /**
@@ -83,6 +83,7 @@ export interface ParameterDescriptionSource
 	dv?: any
 }
 
+
 /**
  * @internal
  */
@@ -127,6 +128,11 @@ export interface PropertyDescriptionSource
 	 * Optional
 	 */
 	o?: boolean;
+
+	/**
+	 * Default Value
+	 */
+	dv?: any
 }
 
 /**

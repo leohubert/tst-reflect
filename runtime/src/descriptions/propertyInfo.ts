@@ -52,6 +52,11 @@ export interface PropertyDescription
 	 * Readonly
 	 */
 	ro?: boolean;
+
+	/**
+	 * Default Value
+	 */
+	dv?: any
 }
 
 /**
@@ -101,6 +106,11 @@ export class PropertyInfo
 	readonly readonly: boolean;
 
 	/**
+	 * Default value
+	 */
+	readonly defaultValue?: any
+
+	/**
 	 * @param description
 	 * @internal
 	 */
@@ -113,6 +123,7 @@ export class PropertyInfo
 		this.accessModifier = description.am ?? AccessModifier.Public;
 		this.accessor = description.acs ?? Accessor.None;
 		this.readonly = description.ro ?? false;
+		this.defaultValue = description?.dv;
 	}
 
 	/**

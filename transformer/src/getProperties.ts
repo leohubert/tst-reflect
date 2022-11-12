@@ -52,7 +52,7 @@ export function getProperties(symbol: ts.Symbol | undefined, type: ts.Type, cont
 		)
 		.map<PropertyDescriptionSource>((memberSymbol: ts.Symbol) =>
 		{
-			const declaration = getDeclaration(memberSymbol);
+			const declaration = getDeclaration(memberSymbol) as ts.ParameterDeclaration;
 			const accessor = getAccessor(declaration);
 			const optional = (memberSymbol.flags & ts.SymbolFlags.Optional) === ts.SymbolFlags.Optional
 				|| (
@@ -60,7 +60,8 @@ export function getProperties(symbol: ts.Symbol | undefined, type: ts.Type, cont
 					&& (
 						ts.isPropertyDeclaration(declaration) || ts.isPropertySignature(declaration)
 					)
-					&& !!declaration.questionToken
+					// @ts-ignore
+					&& !!(declaration?.questionToken)
 				);
 			
 			let type = getType(memberSymbol, context.typeChecker);
@@ -77,6 +78,11 @@ export function getProperties(symbol: ts.Symbol | undefined, type: ts.Type, cont
 			// 	}
 			// }
 
+			// const initializer = declaration?.initializer && ts.isNewExpression(declaration?.initializer!) ?
+			// 	null :
+			// 	declaration.initializer
+
+
 			return {
 				n: memberSymbol.escapedName.toString(),
 				t: type && getTypeCall(type, memberSymbol, context, getCtorTypeReference(memberSymbol)) || getUnknownTypeCall(context),
@@ -84,7 +90,8 @@ export function getProperties(symbol: ts.Symbol | undefined, type: ts.Type, cont
 				am: getAccessModifier(declaration?.modifiers),
 				acs: accessor,
 				ro: isReadonly(declaration?.modifiers) || accessor == Accessor.Getter,
-				o: optional
+				o: optional,
+				dv: undefined
 			};
 		});
 }

@@ -24,7 +24,7 @@ test("Property decorator reflects generic type", () => {
 		expect(description).toBe("description");
 
 		const type = getType<TType>();
-		expect(type instanceof Type).toBe(true);
+		expect(type instanceof Type).toBeTruthy();
 		expect(type).not.toBe(Type.Unknown);
 		expect(type.name).toBe("Something");
 
@@ -48,6 +48,8 @@ test("Property decorator reflects generic type", () => {
 		@propertyDecorator
 		@forward("Louis Litt")
 		property: string = "";
+
+		somethingElse: number = 42
 
 		method(): string
 		{

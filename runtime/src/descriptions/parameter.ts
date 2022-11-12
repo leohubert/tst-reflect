@@ -77,10 +77,11 @@ export class Parameter
 	 */
 	constructor(properties: ParameterDescription)
 	{
+		console.log(properties.dv)
 		this._type = new LazyType(properties.t);
 		this.name = properties.n;
 		this.optional = properties.o;
 		this.variadic = properties.var;
-		this.defaultValue = properties.dv;
+		this.defaultValue = this._type.type.isClass() ? typeof properties.dv == 'function' ? properties.dv() : undefined : properties.dv;
 	}
 }
